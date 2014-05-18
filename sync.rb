@@ -65,11 +65,13 @@ Dir.glob(File.join(config['main']['local_backup_dir'], '*.db')).each do |filepat
   else
     puts "#{filename} does not exist on google drive, will upload"
     # https://developers.google.com/drive/web/quickstart/quickstart-ruby#step_4_run_the_sample
+    # https://developers.google.com/drive/v2/reference/files/insert
     mimetype = 'application/octet-stream'
     file = drive.files.insert.request_schema.new({
       'title' => filename,
       'description' => 'mnemosyne backup',
       'mimeType' => mimetype,
+      'parents' => [config['main']['google_drive_folder_id']]
     })
 
     media = Google::APIClient::UploadIO.new(filepath, mimetype)

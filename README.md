@@ -10,7 +10,6 @@
 1. start Sinatra server, ```ruby authorize.rb```
 1. visit http://localhost:4567
 1. check if drive_token.yaml is generated and has access token
-1. (might need to comment out the first line of drive_token.yaml, only access_token and refresh_token are pertinent)
 
 ### Use
 * set folder_id, where you want backup/*.db synced to

@@ -30,7 +30,7 @@ configure do
   credential = IniFile.load(File.dirname(__FILE__) + '/config.ini')
   client.authorization.client_id = credential['main']['client_id']
   client.authorization.client_secret = credential['main']['client_secret']
-  client.authorization.scope = 'https://www.googleapis.com/auth/drive'
+  client.authorization.scope = 'https://www.googleapis.com/auth/drive/file'
 
   drive = client.discovered_api('drive', 'v2')
 
@@ -57,7 +57,12 @@ after do
   session[:issued_at] = user_credentials.issued_at
 
   File.open(settings.drive_token, 'w') do |out|
-    YAML.dump(session, out)
+    YAML.dump({
+      'access_token' => user_credentials.access_token,
+      'refresh_token' => user_credentials.refresh_token,
+      'expires_in' => user_credentials.expires_in,
+      'issued_at' => user_credentials.issued_at
+    }, out)
   end
 end
 
@@ -74,11 +79,7 @@ get '/oauth2callback' do
 end
 
 get '/' do
-  # Fetch list of events on the user's default calandar
-  result = api_client.execute(:api_method => settings.drive.reports.generate,
-                              :parameters => {
-    startDate: '2013-02-03', endDate: '2013-02-03', dimension: ['DATE'], metric: ['AD_REQUESTS']
-  },
+  result = api_client.execute(:api_method => settings.drive.about.get,
                               :authorization => user_credentials)
   [result.status, {'Content-Type' => 'application/json'}, result.data.to_json]
 end

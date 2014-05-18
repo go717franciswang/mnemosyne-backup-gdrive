@@ -11,19 +11,12 @@ config = IniFile.load(File.join(curdir, 'config.ini'))
 client = Google::APIClient.new({'application_name' => 'drive', 'application_version' => '0.01'})
 client.authorization.client_id = config['main']['client_id']
 client.authorization.client_secret = config['main']['client_secret']
-client.authorization.scope = 'https://www.googleapis.com/auth/drive'
+client.authorization.scope = 'https://www.googleapis.com/auth/drive/file'
 drive = client.discovered_api('drive', 'v2')
 
 access_token = File.join(curdir, 'drive_token.yaml')
 session = YAML.load_file(access_token)
 client.authorization.update_token!(session)
-session[:access_token] = client.authorization.access_token
-session[:refresh_token] = client.authorization.refresh_token
-session[:expires_in] = client.authorization.expires_in
-session[:issued_at] = client.authorization.issued_at
-File.open(access_token, 'w') do |out|
-  YAML.dump(session, out)
-end
 
 result = client.execute(
   api_method: drive.children.list,
@@ -87,3 +80,10 @@ Dir.glob(File.join(config['main']['local_backup_dir'], '*.db')).each do |filepat
   end
 end
 
+session[:access_token] = client.authorization.access_token
+session[:refresh_token] = client.authorization.refresh_token
+session[:expires_in] = client.authorization.expires_in
+session[:issued_at] = client.authorization.issued_at
+File.open(access_token, 'w') do |out|
+  YAML.dump(session, out)
+end

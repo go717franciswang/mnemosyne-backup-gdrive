@@ -1,0 +1,6 @@
+[main]
+google_drive_email=UPDATE_HERE
+google_drive_passwd=UPDATE_HERE
+local_backup_dir=~/.local/share/mnemosyne/backup
+google_drive=mnemosyne/backup
+remove_old=1

@@ -52,6 +52,25 @@ Dir.glob(File.join(config['main']['local_backup_dir'], '*.db')).each do |filepat
     md5 = Digest::MD5.file(filepath).hexdigest
     if md5 != gdrive_file_info[filename]['md5Checksum']
       puts "#{filename} md5 does not match, will update"
+      # https://developers.google.com/drive/v2/reference/files/update
+      mimetype = 'application/octet-stream'
+      file = drive.files.update.request_schema.new({
+        'title' => filename,
+        'description' => 'mnemosyne backup',
+        'mimeType' => mimetype,
+        'parents' => [{'id' => config['main']['google_drive_folder_id']}]
+      })
+
+      media = Google::APIClient::UploadIO.new(filepath, mimetype)
+      result = client.execute(
+        :api_method => drive.files.update,
+        :body_object => file,
+        :media => media,
+        :parameters => {
+          'uploadType' => 'multipart',
+          'alt' => 'json'
+        }
+      )
     else
       puts "#{filename} md5 matches, no need to update"
     end

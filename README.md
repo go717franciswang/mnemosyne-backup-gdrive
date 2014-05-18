@@ -12,6 +12,11 @@
 1. check if drive_token.yaml is generated and has access token
 1. (might need to comment out the first line of drive_token.yaml, only access_token and refresh_token are pertinent)
 
+### Use
+* set folder_id, where you want backup/*.db synced to
+* run ```sync.rb``` to sync to google drive once
+* set up crontab at appropriate times to sync regularly
+
 ### Development
 * Use [APIs Explorer] to find out API method name and arguments
 

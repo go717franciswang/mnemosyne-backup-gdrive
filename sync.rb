@@ -71,7 +71,7 @@ Dir.glob(File.join(config['main']['local_backup_dir'], '*.db')).each do |filepat
       'title' => filename,
       'description' => 'mnemosyne backup',
       'mimeType' => mimetype,
-      'parents' => [config['main']['google_drive_folder_id']]
+      'parents' => [{'id' => config['main']['google_drive_folder_id']}]
     })
 
     media = Google::APIClient::UploadIO.new(filepath, mimetype)

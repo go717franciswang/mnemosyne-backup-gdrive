@@ -22,7 +22,8 @@ result = client.execute(
   api_method: drive.children.list,
   parameters: {
     folderId: config['main']['google_drive_folder_id']
-  }
+  },
+  authorization: client.authorization
 )
 
 gdrive_file_info = {}
@@ -33,7 +34,8 @@ rs['items'].each do |item|
     api_method: drive.files.get,
     parameters: {
       fileId: id
-    }
+    },
+    authorization: client.authorization
   )
   info = JSON.load(result.body)
   title = info['title']
@@ -69,7 +71,8 @@ Dir.glob(File.join(config['main']['local_backup_dir'], '*.db')).each do |filepat
         :parameters => {
           'uploadType' => 'multipart',
           'alt' => 'json'
-        }
+        },
+        authorization: client.authorization
       )
     else
       puts "#{filename} md5 matches, no need to update"
@@ -94,7 +97,8 @@ Dir.glob(File.join(config['main']['local_backup_dir'], '*.db')).each do |filepat
       :parameters => {
         'uploadType' => 'multipart',
         'alt' => 'json'
-      }
+      },
+      authorization: client.authorization
     )
   end
 end

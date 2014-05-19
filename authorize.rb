@@ -30,7 +30,7 @@ configure do
   credential = IniFile.load(File.dirname(__FILE__) + '/config.ini')
   client.authorization.client_id = credential['main']['client_id']
   client.authorization.client_secret = credential['main']['client_secret']
-  client.authorization.scope = 'https://www.googleapis.com/auth/drive/file'
+  client.authorization.scope = 'https://www.googleapis.com/auth/drive.file'
 
   drive = client.discovered_api('drive', 'v2')
 

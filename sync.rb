@@ -11,7 +11,7 @@ config = IniFile.load(File.join(curdir, 'config.ini'))
 client = Google::APIClient.new({'application_name' => 'drive', 'application_version' => '0.01'})
 client.authorization.client_id = config['main']['client_id']
 client.authorization.client_secret = config['main']['client_secret']
-client.authorization.scope = 'https://www.googleapis.com/auth/drive/file'
+client.authorization.scope = 'https://www.googleapis.com/auth/drive.file'
 drive = client.discovered_api('drive', 'v2')
 
 access_token = File.join(curdir, 'drive_token.yaml')

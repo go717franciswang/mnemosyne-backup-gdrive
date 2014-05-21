@@ -2,3 +2,5 @@
 config.ini
 drive_token.yaml
 *.log
+*.json
+*.cache

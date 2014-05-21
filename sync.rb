@@ -168,7 +168,5 @@ if __FILE__ == $0
       insert_file(client, drive, filepath, config)
     end
   end
-
-  insert_file(client, drive)
 end
 
